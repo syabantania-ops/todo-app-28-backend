@@ -1,8 +1,5 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
-
-dotenv.config();
 
 export const verifyToken = (
   req: Request,
@@ -10,6 +7,7 @@ export const verifyToken = (
   next: NextFunction
 ): void => {
   const authHeader = req.headers["authorization"];
+
   const token = authHeader && authHeader.split(" ")[1];
 
   if (!token) {
@@ -27,6 +25,7 @@ export const verifyToken = (
     ) as { id: number };
 
     res.locals.userId = decoded.id;
+
     next();
   } catch (error) {
     res.status(403).json({
